@@ -99,10 +99,10 @@ class Order:
 
         print("Your bill:")
         for key in self._orderDict:
-            print("%-20s Qty: %-10d Price: $%-10.2f Total: $%-10.2f"%(key,self._orderDict[key],self._priceDict[key],\(self._orderDict[key]*self._priceDict[key])))          
+            print("%-20s Qty: %-10d Price: $%-10.2f Total: $%-10.2f"%(key,self._orderDict[key],self._priceDict[key], /(self._orderDict[key]*self._priceDict[key])))          
         print("-"*50)
-        print("Price before tax:" , self.priceBtax)
-        print("Price after tax:" , self.priceAtax)
+        print("Price before tax:", self.priceBtax)
+        print("Price after tax:", self.priceAtax)
 
     def saveToFile(self):
         timeStamp = time.time()
