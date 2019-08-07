@@ -1,0 +1,6 @@
+Your bill:
+ Bacon Cheese         Qty: 2          Price: $5.75       Total: $11.50     
+----------------------------------------------------------------------
+Price before tax:11.5
+Tax:0.09
+Price after tax:12.54

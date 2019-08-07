@@ -1,10 +1,8 @@
 #CIS40 - Final program - Aaron Beagle
 ## Class program to order burgers from DeAnza burger joint.
 
-import time
-import datetime
+TAX=.09
 class Order:
-    Tax = 0.09
     def __init__(self):
         '''
         This is the initialization method.
@@ -12,7 +10,7 @@ class Order:
         self._priceBtax = 0
         self._priceAtax = 0
         self._priceDict = {"De Anza Burger" : 5.25 , "Bacon Cheese" : 5.75, "Mushroom Swiss" : 5.95, "Western Burger" : 5.95, "Don Cali Burger" : 5.95}
-        self._orderDict = {"De Anza Burger" : 0, "Bacon Cheese" : 0,"Mushroom Swiss" : 0, "Western Burger" : 0, "Don Cali Burger" : 0}
+        self._orderDict = {"De Anza Burger" : 0, "Bacon Cheese" : 0, "Mushroom Swiss" : 0, "Western Burger" : 0, "Don Cali Burger" : 0}
 
     def displayMenu(self):
         '''
@@ -23,7 +21,7 @@ class Order:
         for key in self._priceDict:
             print("{a}.{b:15s}{c:8.2f}".format(a= number, b= key, c=self._priceDict[key]))
             number +=1
-            print("6. Exit")
+        print("6. Exit")
     
     def getInputs(self):
         '''
@@ -31,7 +29,7 @@ class Order:
         '''
         count=0
         burgerOrder = int(input("Please enter the burger number you want(1 to 5 or 6 to complete order): "))
-        burgetrQuantity = int(input("Enter the quantity:"))
+        burgerQuantity = int(input("Enter the quantity:"))
         flag1 = True
         while flag1:
             flag2=True
@@ -46,26 +44,27 @@ class Order:
                         flag2=False
                 except:
                     print("Please enter a number between 1 and 6!")
-        flag3=True
-        while flag3 and burgerOrder !=6:
-            try:
-                burgerQuantity = int(input("Please enter how many burgers you'd like: "))
-                count +=1
-                flag3=False
-            except:
-                print("Please enter a positive quantity for your burger selection!")
-        if burgerOrder == 1:
-            self._orderddict ["De Anza Burger"] = burgerQuantity
-        elif order == 2:
-            self._orderdict ["Bacon Cheese"] = burgerQuantity
-        elif order == 3:
-            self._orderdict ["Mushroom Swiss"] = burgerQuantity
-        elif order == 4:
-            self._orderdict ["Western Burger"] = burgerQuantity
-        elif order == 5:
-            self._orderdict ["Don Cali Burger"] = burgerQuantity
-        elif order == 6:
-            flag1=False
+            flag3=True
+            while flag3 and burgerOrder !=6:
+                try:
+                    burgerQuantity = int(input("Please enter how many burgers you'd like: "))
+                    count +=1
+                    flag3=False
+                except:
+                    print("Please enter a positive quantity for your burger selection!")
+                
+            if burgerOrder == 1:
+                self._orderDict ["De Anza Burger"] = burgerQuantity
+            elif burgerOrder == 2:
+                self._orderDict ["Bacon Cheese"] = burgerQuantity
+            elif burgerOrder == 3:
+                self._orderDict ["Mushroom Swiss"] = burgerQuantity
+            elif burgerOrder == 4:
+                self._orderDict ["Western Burger"] = burgerQuantity
+            elif burgerOrder == 5:
+                self._orderDict ["Don Cali Burger"] = burgerQuantity
+            elif burgerOrder == 6:
+                flag1=False
 
         flag4=True
         while flag4 and count !=0:
@@ -81,17 +80,16 @@ class Order:
         The doc string for this method calculates the bill.
         '''
 
-        for key in self.priceDict:
+        for key in self._priceDict:
             self._priceBtax += self._orderDict[key] * self._priceDict[key]
-            self._priceAtax = self._priceBtax + (self._priceBtax * self._tax)
+
+            self._priceAtax = self._priceBtax + (self._priceBtax * TAX)
 
 
     def printBill(self):
 
         '''
-
         The doc string for this method displays the bill
-
         '''
 
 
@@ -99,29 +97,32 @@ class Order:
 
         print("Your bill:")
         for key in self._orderDict:
-            print("%-20s Qty: %-10d Price: $%-10.2f Total: $%-10.2f"%(key,self._orderDict[key],self._priceDict[key], \ (self._orderDict[key]*self._priceDict[key])))          
+            print("%-20s Qty: %-10d Price: $%-10.2f Total: $%-10.2f"%(key,self._orderDict[key],self._priceDict[key],(self._orderDict[key]*self._priceDict[key])))
         print("-"*50)
-        print("Price before tax:", self.priceBtax)
-        print("Price after tax:", self.priceAtax)
+        print("Price before tax:", self._priceBtax)
+        print("Price after tax:", self._priceAtax)
 
     def saveToFile(self):
+        import time
         timeStamp = time.time()
-        orderTimeStamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H-%M-%S')
+        import datetime
+        orderTimeStamp = datetime.datetime.fromtimestamp(timeStamp).strftime('%Y-%m-%d %H-%M-%S')
 
         orderTimeStamp = orderTimeStamp + '.txt'
 
         fileHandleToSaveTheBill = open(orderTimeStamp, 'w')
 
-        fileHnadleToSaveTheBill.write("Your bill:")
+        fileHandleToSaveTheBill.write("Your bill:")
         for key in self._orderDict:
             if self._orderDict[key] !=0:
                 #print(key, "\t\tQty:" , self.orderDict[key], "t\Price:", self._priceDict[key], "\tTotal:", self.OrderD
-                fileHandleToSaveTheBill.write("\n %-20s Qty: %-10d Price: $%-10.2f" \
+                fileHandleToSaveTheBill.write("\n %-20s Qty: %-10d Price: $%-10.2f Total: $%-10.2f" \
                     %(key, self._orderDict[key],self._priceDict[key], (self._orderDict[key]*self._priceDict[key])))
+                
         fileHandleToSaveTheBill.write("\n" + "-"*70)
-        fileHandleToSaveTheBill.write("\nPrice before tax:" + str(round(self.priceBtax,2)))
-        fileHandleToSaveTheBill.write("\nTax:" + str(self.tax))
-        fileHandleToSaveTheBill.write("\nPrice after tax:" + str(round(self.priceAtax,2)))
+        fileHandleToSaveTheBill.write("\nPrice before tax:" + str(round(self._priceBtax,2)))
+        fileHandleToSaveTheBill.write("\nTax:" + str(TAX))
+        fileHandleToSaveTheBill.write("\nPrice after tax:" + str(round(self._priceAtax,2)))
                 
 
 
